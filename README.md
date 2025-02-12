@@ -42,3 +42,13 @@ AIMLazy-AI is a project that humorously explores the concept of AI taking over o
    ```bash
    cd backend
    pip install -r requirements.txt
+
+   ## Features:
+- **AI-powered responses** with FastAPI & OpenAI
+- **Meme generation** via external APIs
+- **Web3 integration** for token staking
+- **Next.js frontend** for UI
+- **Dockerized deployment**
+
+## Installation:
+1. Clone the repo:
