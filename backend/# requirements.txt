@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+openai
+dotenv
+requests
+web3
