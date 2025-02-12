@@ -1,21 +1,17 @@
-import requests
 import os
-from fastapi import FastAPI
+import requests
 from dotenv import load_dotenv
 
 load_dotenv()
-app = FastAPI()
 
-STABLE_DIFFUSION_API_KEY = os.getenv("STABLE_DIFFUSION_API_KEY")
-
-@app.get("/generate-meme")
-def generate_meme(prompt: str):
-    response = requests.post(
-        "https://api.stablediffusionapi.com/v1/generate",
-        json={"prompt": prompt, "api_key": STABLE_DIFFUSION_API_KEY}
-    )
+def generate_meme(text: str):
+    meme_api_url = "https://api.imgflip.com/caption_image"
+    params = {
+        "template_id": "181913649",
+        "username": os.getenv("IMGFLIP_USERNAME"),
+        "password": os.getenv("IMGFLIP_PASSWORD"),
+        "text0": "AI Morning Lazy",
+        "text1": text
+    }
+    response = requests.post(meme_api_url, data=params)
     return response.json()
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8001)
