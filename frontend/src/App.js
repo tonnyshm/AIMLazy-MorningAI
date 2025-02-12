@@ -1,33 +1,23 @@
-import { useState, useEffect } from "react";
-import { ethers } from "ethers";
-import AIMLazyToken from "../contracts/AIMLazyToken.json";
+import { useState } from "react";
 
-const contractAddress = "0xYourDeployedContractAddress";
+function LazyAIChat() {
+  const [input, setInput] = useState("");
+  const [response, setResponse] = useState("");
 
-function App() {
-    const [account, setAccount] = useState(null);
-    const [balance, setBalance] = useState(0);
+  const getLazyReply = async () => {
+    const res = await fetch(`http://localhost:8000/lazy-response?user_input=${input}`);
+    const data = await res.json();
+    setResponse(data.response);
+  };
 
-    useEffect(() => {
-        async function loadBlockchainData() {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const contract = new ethers.Contract(contractAddress, AIMLazyToken.abi, signer);
-            const accounts = await provider.send("eth_requestAccounts", []);
-            setAccount(accounts[0]);
-            const balance = await contract.balanceOf(accounts[0]);
-            setBalance(ethers.utils.formatEther(balance));
-        }
-        loadBlockchainData();
-    }, []);
-
-    return (
-        <div>
-            <h1>AIMLazy Token</h1>
-            <p>Connected Wallet: {account}</p>
-            <p>Balance: {balance} AIML</p>
-        </div>
-    );
+  return (
+    <div>
+      <h1>AIMLazy Chat</h1>
+      <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Ask me anything..." />
+      <button onClick={getLazyReply}>Ask</button>
+      <p>{response}</p>
+    </div>
+  );
 }
 
-export default App;
+export default LazyAIChat;
